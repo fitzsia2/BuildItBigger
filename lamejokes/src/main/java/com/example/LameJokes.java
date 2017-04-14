@@ -1,5 +1,6 @@
 package com.example;
 
+
 public class LameJokes {
     private static String[] m_lsJokes = {
             "Team work is important; it helps to put the blame on someone else.",
@@ -11,10 +12,13 @@ public class LameJokes {
             "Feeling pretty proud of myself. The Sesame Street puzzle I bought said 3-5 years, but I finished it in 18 months.",
             "Hospitality: making your guests feel like they're at home, even if you wish they were.",
             "Just read that 4,153,237 people got married last year, not to cause any trouble but shouldn't that be an even number?",
+            "What do you call an alligator wearing a vest? An investigator",
     };
 
     public static String getRandomJoke() {
-        return m_lsJokes[1];
+        int index = ((int) Math.floor(Math.random() * m_lsJokes.length));
+
+        return m_lsJokes[index];
     }
 
 }
