@@ -1,1 +1,1 @@
-include ':app', ':lamejokes'
+include ':app', ':lamejokes', ':lamejokeactivity'
