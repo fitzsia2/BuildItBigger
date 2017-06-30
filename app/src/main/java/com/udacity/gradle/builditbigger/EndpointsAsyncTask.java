@@ -19,13 +19,13 @@ import static android.provider.AlarmClock.EXTRA_MESSAGE;
  * https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/HelloEndpoints
  */
 
-public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+public class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
     private static MyApi myApiService = null;
     private Context mContext;
 
 
     @Override
-    protected String doInBackground(Pair<Context, String>... params) {
+    protected String doInBackground(Context... params) {
         if (myApiService == null) {  // Only do this once
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
                     .setRootUrl("https://coral-theme-125214.appspot.com/_ah/api/");
@@ -34,7 +34,7 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
             myApiService = builder.build();
         }
 
-        mContext = params[0].first;
+        mContext = params[0];
 
         try {
             return myApiService.getJoke().execute().getData();
