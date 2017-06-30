@@ -1,18 +1,12 @@
 package com.udacity.gradle.builditbigger;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import com.example.LameJokes;
-
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -21,8 +15,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
     }
 
 
@@ -50,14 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void tellJoke(View view) {
-        String message = LameJokes.getRandomJoke();
-
-        Intent intent = new Intent(this, com.example.lamejokeactivity.MainActivity.class);
-        intent.putExtra(EXTRA_MESSAGE, message);
-
-        Log.d("app", "telling joke..." + message);
-
-        startActivity(intent);
+        new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
     }
 
 
