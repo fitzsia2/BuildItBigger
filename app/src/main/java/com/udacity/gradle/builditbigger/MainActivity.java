@@ -1,15 +1,16 @@
 package com.udacity.gradle.builditbigger;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity implements EndpointsAsyncTask.Callback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +43,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void tellJoke(View view) {
-        new EndpointsAsyncTask().execute(this);
+        EndpointsAsyncTask eap = new EndpointsAsyncTask();
+        eap.setCallbackCaller(this);
+        eap.execute();
     }
 
 
+    @Override
+    public void requestResponse(String joke) {
+        Intent i = new Intent(this, com.example.lamejokeactivity.MainActivity.class);
+        i.putExtra(EXTRA_MESSAGE, joke);
+        startActivity(i);
+    }
 }
