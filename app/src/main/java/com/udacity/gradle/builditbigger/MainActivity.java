@@ -6,16 +6,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 
 public class MainActivity extends AppCompatActivity implements EndpointsAsyncTask.Callback {
+    private EndpointsAsyncTask m_EndpointASync;
+    private boolean m_fRunning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        m_EndpointASync = new EndpointsAsyncTask();
+        m_EndpointASync.setCallbackCaller(this);
     }
 
 
@@ -43,9 +49,25 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
 
 
     public void tellJoke(View view) {
-        EndpointsAsyncTask eap = new EndpointsAsyncTask();
-        eap.setCallbackCaller(this);
-        eap.execute();
+        if (!m_fRunning) {
+            m_fRunning = true;
+            
+            m_EndpointASync = new EndpointsAsyncTask();
+            m_EndpointASync.setCallbackCaller(this);
+            m_EndpointASync.execute();
+
+            ProgressBar pg = (ProgressBar) findViewById(R.id.line_chart_progress_bar);
+            pg.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        ProgressBar pg = (ProgressBar) findViewById(R.id.line_chart_progress_bar);
+        pg.setVisibility(View.GONE);
     }
 
 
@@ -54,5 +76,6 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
         Intent i = new Intent(this, com.example.lamejokeactivity.MainActivity.class);
         i.putExtra(EXTRA_MESSAGE, joke);
         startActivity(i);
+        m_fRunning = false;
     }
 }
