@@ -7,6 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+import static junit.framework.TestCase.fail;
+
 /**
  * Created by Andrew on 7/1/17.
  * Test EndpointAsyncTask class.
@@ -31,7 +37,13 @@ public class EndpointsAsyncTaskTest implements EndpointsAsyncTask.Callback {
         eat.setCallbackCaller(this);
         mComplete = false;
         eat.execute();
-        while(!mComplete) {}
+        while (!mComplete) {}
+        try {
+            String result = eat.get(5, TimeUnit.SECONDS);
+            assert (result != null);
+        } catch (InterruptedException | TimeoutException | ExecutionException e) {
+            fail();
+        }
     }
 
     @Override
